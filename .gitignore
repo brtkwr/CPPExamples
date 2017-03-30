@@ -1,0 +1,5 @@
+*.exe
+*.o
+*.dev
+*.xcodeproj
+*.xcode

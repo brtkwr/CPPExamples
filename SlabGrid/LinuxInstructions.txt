@@ -1,0 +1,25 @@
+Open a Terminal Window.
+
+Migrate to the folder containing the program using the cd command:
+
+cd foldername
+cd subfolder
+etc.
+
+cd on its own takes you back to the root directory.
+
+The command:
+
+ls
+
+lists files and folders in the current folder. Use right mouse for copy and paste.
+
+To compile type:
+
+g++ SlabGrid.cpp -o ChrisProg -lm -lglut
+
+To run type:
+
+./ChrisProg
+
+This works on the University of Bath Linux machines. On other machines you may have to install OpenGL.

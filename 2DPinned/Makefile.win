@@ -1,0 +1,33 @@
+# Project: 2Dpinned
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = MatrixInvert.o 2Dpinned.o $(RES)
+LINKOBJ  = MatrixInvert.o 2Dpinned.o $(RES)
+LIBS =  -L"lib"  
+INCS =  -I"include" 
+CXXINCS =  -I"lib/gcc/mingw32/3.4.2/include"  -I"include/c++/3.4.2/backward"  -I"include/c++/3.4.2/mingw32"  -I"include/c++/3.4.2"  -I"include" 
+BIN  = 2Dpinned.exe
+CXXFLAGS = $(CXXINCS)  
+CFLAGS = $(INCS)  
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before 2Dpinned.exe all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "2Dpinned.exe" $(LIBS)
+
+MatrixInvert.o: MatrixInvert.cpp
+	$(CPP) -c MatrixInvert.cpp -o MatrixInvert.o $(CXXFLAGS)
+
+2Dpinned.o: 2Dpinned.cpp
+	$(CPP) -c 2Dpinned.cpp -o 2Dpinned.o $(CXXFLAGS)

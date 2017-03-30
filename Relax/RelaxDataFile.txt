@@ -1,0 +1,10 @@
+RelaxBristishMuseum.txt
+Starting own weight safety factor = 2.1
+Starting applied load safety factor = 2.4
+Non-linear control = 0
+Axial stiffness control = 1
+Nodal matrix control = 1
+Displacement mass multiplier = 2.0
+Rotation inertia multiplier = 5.0
+Displacement carry-over factor = 0.999
+Rotation carry-over factor = 0.99

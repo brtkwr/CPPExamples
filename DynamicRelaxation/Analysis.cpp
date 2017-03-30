@@ -1,0 +1,69 @@
+#include "ChrisNet.h"
+int    cycle,printcycle,lastcycle;
+double velocity[MaxNodesplus1][3],force[MaxNodesplus1][3],stiffness[MaxNodesplus1][3],
+       deltax[3],length,tension,thisStiffness,carryover,sumsq,previoussumsq,factor;
+int main(void)
+{
+ReadNet();
+for(node=0;node<=lastnode;node++)
+{
+for(direction=0;direction<=2;direction++)velocity[node][direction]=0.0;
+}
+carryover=0.0;factor=1.0;printcycle=100;lastcycle=100*printcycle;
+for(cycle=0;cycle<=lastcycle;cycle++)
+{
+for(node=0;node<=lastnode;node++)
+{
+for(direction=0;direction<=2;direction++)
+{
+force[node][direction]=load[node][direction];
+stiffness[node][direction]=0.0;
+}
+}
+for(element=0;element<=lastelement;element++)
+{
+for(direction=0;direction<=2;direction++)deltax[direction]=x[end[element][1]][direction]-x[end[element][0]][direction];
+length=sqrt(deltax[0]*deltax[0]+deltax[1]*deltax[1]+deltax[2]*deltax[2]);
+if(length!=0.0)
+{
+tension=EA[element]*(length-L[element])/L[element];
+for(direction=0;direction<=2;direction++)
+{
+force[end[element][0]][direction]+=deltax[direction]*tension/length;
+force[end[element][1]][direction]-=deltax[direction]*tension/length;
+thisStiffness=(deltax[direction]*deltax[direction]/(length*length))*EA[element]/L[element];
+stiffness[end[element][0]][direction]+=thisStiffness;stiffness[end[element][1]][direction]+=thisStiffness;
+}
+}
+}
+sumsq=0.0;
+for(node=0;node<=lastnode;node++)
+{
+if(nodeType[node]==0)
+{
+thisStiffness=stiffness[node][0]+stiffness[node][1]+stiffness[node][2];
+if(thisStiffness!=0.0)
+{
+for(direction=0;direction<=2;direction++)
+{
+velocity[node][direction]=carryover*velocity[node][direction]+factor*force[node][direction]/thisStiffness;
+sumsq+=velocity[node][direction]*velocity[node][direction];
+}
+}
+}
+}
+if(previoussumsq>sumsq){carryover=0.0;cout<<cycle<<"   "<<previoussumsq<<"\n";previoussumsq=0.0;}
+else 
+{
+carryover=1.0;previoussumsq=sumsq;
+for(node=0;node<=lastnode;node++)
+{
+if(nodeType[node]==0)
+{
+for(direction=0;direction<=2;direction++)x[node][direction]+=velocity[node][direction];
+}
+}
+}
+}
+WriteNet();cout<<"Finished\n";return 0;
+}
